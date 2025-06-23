@@ -1,0 +1,43 @@
+{
+    "questions": [
+        {
+            "id": "1",
+            "question": "Mikä pienikokoinen ruokamakkara seilaa merellä?",
+            "img": "",
+            "answers": [
+                {
+                    "id": "1",
+                    "text": "Salamibootti",
+                    "correct": false
+                },
+                {
+                    "id": "2",
+                    "text": "Makkaralaiva",
+                    "correct": false
+                },
+                {
+                    "id": "3",
+                    "text": "Nakkivene",
+                    "correct": true
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "question": "Testi kysymys",
+            "img": "",
+            "answers": [
+                {
+                    "id": "1",
+                    "text": "Kyllä",
+                    "correct": false
+                },
+                {
+                    "id": "2",
+                    "text": "Ei",
+                    "correct": true
+                }
+            ]
+        }
+    ]
+}
