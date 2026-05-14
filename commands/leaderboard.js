@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js')
 const { PermissionFlagsBits } = require('discord.js')
-const { getResultAll } = require('../utils/sqlite')
+const {getResultAll} = require('../utils/database')
 
 module.exports = {
     name: 'leaderboard',
@@ -9,7 +9,16 @@ module.exports = {
     default_member_permissions: PermissionFlagsBits.ManageMessages,
     async execute(interaction, args, bot) {
         let results = await getResultAll()
+
         let description = []
+        if (results.length < 1) {
+            const boardEmbed = new EmbedBuilder()
+                .setTitle(`Top 15 Leaderboard (0)`)
+                .setColor(0xD94D15)
+                .setDescription("No Answers found")
+            await interaction.reply({ embeds: [boardEmbed] })
+            return
+        }
 
         // Parsing results to merge rows with user id's and counting total points
         let parsedResults = new Map()
@@ -25,8 +34,7 @@ module.exports = {
         
         // Assemble description for embed
         let count = 1
-        for (let pair of sortedResults) {
-            let [key, value] = pair
+        for (let [key, value] of sortedResults) {
             const user = await bot.users.fetch(key)
 	        description.push(`${count}. ${user.globalName} (<@${key}>): ${value} points`)
             count++

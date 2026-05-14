@@ -2,7 +2,7 @@ const { ActionRowBuilder, EmbedBuilder } = require('discord.js')
 const { ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js')
 const { ApplicationCommandOptionType } = require('discord.js')
 const quizzes = require('../quiz.json')
-const { addRunning, removeRunning } = require('../utils/sqlite')
+const { addRunning, removeRunning } = require('../utils/database')
 
 module.exports = {
     name: 'quiz',

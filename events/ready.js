@@ -1,11 +1,9 @@
 const { ApplicationCommandType } = require('discord.js')
-const { init } = require('../utils/sqlite')
 
 module.exports = {
     name: 'ready',
     once: true,
     async execute(bot) {
-        init()
         //  Log Bot's username and the amount of servers its in to console
         console.log(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`)
 

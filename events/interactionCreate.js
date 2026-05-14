@@ -1,6 +1,7 @@
 const { EmbedBuilder, MessageFlags, ButtonBuilder, ActionRowBuilder } = require('discord.js')
-const { getRunning, addResult, getResultAll, removeRunning } = require('../utils/sqlite')
+const { getRunning, addResult, getResultAll, removeRunning } = require('../utils/database')
 const quizzes = require('../quiz.json')
+
 module.exports = {
   name: 'interactionCreate',
   async execute(interaction, bot) {
