@@ -1,0 +1,36 @@
+services:
+  ramavisa:
+    image: ramavisa:latest
+    container_name: ramavisa
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://ramavisa:visa@db:5432/ramavisa
+    volumes:
+      - ./quiz.json:/app/quiz.json
+      - ./.env:/app/.env
+      - ./database.db:/app/database.db
+    depends_on:
+      - db
+    networks:
+      - visabot-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: ramavisa
+      POSTGRES_PASSWORD: visa
+      POSTGRES_DB: ramavisa
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - visabot-network
+
+networks:
+  visabot-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
