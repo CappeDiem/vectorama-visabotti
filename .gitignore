@@ -3,3 +3,6 @@ node_modules
 database.db
 config.json
 quiz.json
+.env
+/generated/prisma
+/generated/
