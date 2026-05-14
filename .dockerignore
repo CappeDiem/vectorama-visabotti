@@ -1,0 +1,23 @@
+# Dependency directory
+node_modules
+database.db
+config.json
+config.json.*
+
+.idea/
+.vscode/
+.DS_Store
+visabot.iml
+
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+.env
+.env.*
+
+/generated/prisma
+/generated/
+
+.git/
+.gitignore
