@@ -1,6 +1,7 @@
 require('dotenv').config()
 const fs = require("fs")
 const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js')
+const winston = require('winston')
 const bot = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -15,6 +16,21 @@ const bot = new Client({
     ]
 })
 
+bot.logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.timestamp(),
+        winston.format.printf(log => `[${log.timestamp.split('T')[1].split('.')[0]} ${log.level}]: ${log.message}`),
+    ),
+    defaultMeta: { service: 'user-service' },
+    transports: [
+        new winston.transports.Console({level: 'info'}),
+    ],
+});
+
+let logger = bot.logger
+
 // Create a collection to store commands inside the bot object
 bot.commands = new Collection()
 
@@ -22,7 +38,7 @@ bot.commands = new Collection()
 const commandFiles = fs.readdirSync('./commands/').filter(f => f.endsWith('.js'))
 for (const file of commandFiles) {
     const props = require(`./commands/${file}`)
-    console.log(`${file} loaded`)
+    logger.info(`${file} loaded`)
     bot.commands.set(props.name, props)
 }
 
@@ -34,7 +50,7 @@ commandSubFolders.forEach(folder => {
     const commandFiles = fs.readdirSync(`./commands/${folder}/`).filter(f => f.endsWith('.js'))
     for (const file of commandFiles) {
         const props = require(`./commands/${folder}/${file}`)
-        console.log(`${file} loaded from ${folder}`)
+        logger.info(`${file} loaded from ${folder}`)
         bot.commands.set(props.name, props)
     }
 })

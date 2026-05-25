@@ -8,7 +8,10 @@ module.exports = {
     limited: false,
     default_member_permissions: PermissionFlagsBits.ManageMessages,
     async execute(interaction, args, bot) {
+        let logger = bot.logger
         let results = await getResultAll()
+        logger.info("Results amount: "  + parsedResults.size)
+        logger.debug("Results: " + parsedResults)
 
         let description = []
         if (results.length < 1) {
@@ -39,6 +42,8 @@ module.exports = {
 	        description.push(`${count}. ${user.globalName} (<@${key}>): ${value} points`)
             count++
         }
+        logger.info("Results amount: "  + parsedResults.size)
+        logger.debug("Results: " + parsedResults)
 
         // Assemble embed and reply it to the command
         const boardEmbed = new EmbedBuilder()

@@ -18,7 +18,7 @@ module.exports = {
     default_member_permissions: PermissionFlagsBits.ManageMessages,
     async execute(interaction, args, bot) {
 
-        if(!quizzes.questions.find(question => question.id === args[0])) return interaction.reply({ content: "Kysymystä ei löytynyt", flags: MessageFlags.Ephemeral })
+        if(!quizzes.questions.find(question => question.id === args[0])) return interaction.reply({ content: "Kysymystä ei löytynyt", ephemeral: true })
     
         const quiz = quizzes.questions.find(question => question.id === args[0])
         let quizId = quiz.id + "_" + Date.now()

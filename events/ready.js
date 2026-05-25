@@ -4,8 +4,9 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(bot) {
+        let logger = bot.logger
         //  Log Bot's username and the amount of servers its in to console
-        console.log(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`)
+        logger.info(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`)
 
         // Set the Presence of the bot user to show 'Playing: My code'
         //bot.user.setPresence({ activities: [{ name: 'My code'}] })
@@ -22,7 +23,7 @@ module.exports = {
         if ((opt || opt === undefined) && sourcecmd && command.description && sourcecmd.description == command.description) return
 
         if (sourcecmd && command.type) return
-        console.log(`Detected /${command.name} has some changes! Overwriting command...`)
+        logger.info(`Detected /${command.name} has some changes! Overwriting command...`)
         await bot.application?.commands.create({
           name: command.name,
           type: command.type ? ApplicationCommandType[command.type] : ApplicationCommandType.ChatInput,

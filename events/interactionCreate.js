@@ -5,12 +5,14 @@ const quizzes = require('../quiz.json')
 module.exports = {
   name: 'interactionCreate',
   async execute(interaction, bot) {
+    let logger = bot.logger
     // Handle Button Presses for the quiz
     if (interaction.type === 3) {
         // get the quiz id and find quiz from file
         const ids = interaction.customId.split("_")
         const quizId = ids[0] + "_" + ids[1]
         const quiz = quizzes.questions.find(question => question.id === ids[0])
+        logger.debug("Quiz ID: " + quizId)
 
         // The answer user clicked
         const answerId = ids[2]
@@ -49,15 +51,17 @@ module.exports = {
 
         // If user has not already answered handle point calculations and give response
         if(quiz.answers.find(answer => answer.id === answerId) && quiz.answers.find(answer => answer.id === answerId).correct) {
+            logger.info("Correct Answer: " + interaction.member.user.id)
             let points = 2
             if (Date.now() < parseInt(ids[1]) + 30000 ) points = 2
             if (Date.now() < parseInt(ids[1]) + 20000 ) points = 5
             if (Date.now() < parseInt(ids[1]) + 10000 ) points = 10
 
             addResult(quizId, interaction.member.user.id, points)
-            
+
             return await interaction.reply({ content: `Vastasit oikein sait ${points} pistettä`, flags: MessageFlags.Ephemeral })
         } else {
+            logger.info("Incorrect Answer: " + interaction.member.user.id)
             addResult(quizId, interaction.member.user.id, 0)
             return await interaction.reply({ content: "Vastasit väärin sait 0 pistettä", flags: MessageFlags.Ephemeral })
         }
@@ -97,8 +101,8 @@ module.exports = {
           { name: '**Error:**', value: `\`\`\`\n${err}\n\`\`\`` },
         ])
       }
-      interaction.user.send({ embeds: [interactionFailed] }).catch(err => console.log(err))
-      console.log(err.stack)
+      interaction.user.send({ embeds: [interactionFailed] }).catch(err => logger.error(err))
+      logger.error(err.stack)
     }
   },
 }
