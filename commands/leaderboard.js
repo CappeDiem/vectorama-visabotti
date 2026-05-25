@@ -10,8 +10,8 @@ module.exports = {
     async execute(interaction, args, bot) {
         let logger = bot.logger
         let results = await getResultAll()
-        logger.info("Results amount: "  + parsedResults.size)
-        logger.debug("Results: " + parsedResults)
+        logger.info("Results amount: "  + results.length)
+        logger.debug("Results: " + results)
 
         let description = []
         if (results.length < 1) {
