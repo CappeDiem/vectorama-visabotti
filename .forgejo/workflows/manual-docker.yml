@@ -1,0 +1,28 @@
+name: Build and push Docker image to registry
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write Credentials
+        run: |
+          mkdir -p ~/.docker
+          auth=$(printf '%s:%s' "${{ secrets.REGISTRY_USER }}" "${{ secrets.REGISTRY_TOKEN }}" | base64 | tr -d '\n')
+          printf '{"auths":{"%s":{"auth":"%s"}}}' "${{ secrets.REGISTRY_URL }}" "$auth" > ~/.docker/config.json
+
+      - name: Build and Push
+        run: |
+          image="$(echo "${{ secrets.REGISTRY_URL }}/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
+          names="$image:${{ github.sha }}"
+          buildctl build \
+            --frontend dockerfile.v0 \
+            --local context=. \
+            --local dockerfile=. \
+            --output "type=image,\"name=$names\",push=true"
+
