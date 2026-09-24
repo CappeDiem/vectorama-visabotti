@@ -16,10 +16,13 @@ jobs:
           auth=$(printf '%s:%s' "${{ secrets.REGISTRY_USER }}" "${{ secrets.REGISTRY_TOKEN }}" | base64 | tr -d '\n')
           printf '{"auths":{"%s":{"auth":"%s"}}}' "${{ secrets.REGISTRY_URL }}" "$auth" > ~/.docker/config.json
 
+      - name: Short SHA
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+
       - name: Build and Push
         run: |
           image="$(echo "${{ secrets.REGISTRY_URL }}/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
-          names="$image:${{ github.sha }}"
+          names="$image:$SHORT_SHA"
           buildctl build \
             --frontend dockerfile.v0 \
             --local context=. \
