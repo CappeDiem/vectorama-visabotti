@@ -6,3 +6,4 @@ quiz.json
 .env
 /generated/prisma
 /generated/
+.idea
