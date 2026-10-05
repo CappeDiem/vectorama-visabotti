@@ -19,12 +19,25 @@ services:
     image: postgres:18-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
     container_name: postgres_db
     restart: always
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: ramavisa
       POSTGRES_PASSWORD: visa
       POSTGRES_DB: ramavisa
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - visabot-network
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    container_name: valkey
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - valkey_data:/data
     networks:
       - visabot-network
 
@@ -34,3 +47,4 @@ networks:
 
 volumes:
   postgres_data:
+  valkey_data:
