@@ -2,6 +2,9 @@ require('dotenv').config()
 const fs = require("fs")
 const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js')
 const winston = require('winston')
+const startApi = require("./api");
+const {connectValkey} = require("./utils/valkey");
+
 const bot = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -65,6 +68,9 @@ for (const file of eventFiles) {
         bot.on(event.name, (...args) => event.execute(...args, bot))
     }
 }
-
-// Token needed in config.json
-bot.login(process.env.DISCORD_TOKEN)
+async function start() {
+    await connectValkey()
+    startApi(bot)
+    await bot.login(process.env.DISCORD_TOKEN)
+}
+start().catch(error => logger.error(error))
