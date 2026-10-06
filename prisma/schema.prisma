@@ -31,3 +31,22 @@ model Results {
   @@id([quizId, userId])
   @@map("results")
 }
+
+model Quiz {
+  id            String   @id @default(cuid())
+  name          String
+  questions Question[]
+}
+
+model Question {
+  id       String @id
+  question String
+  img      String?
+  answers  Json
+  quizId   String
+  quiz     Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  position Int
+
+  @@index([quizId])
+}

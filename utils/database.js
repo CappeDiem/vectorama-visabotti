@@ -7,6 +7,29 @@ const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 
 /**
+ * Get Quizzes
+ */
+async function getQuizList() {
+    return prisma.quiz.findMany();
+}
+
+/**
+ * Get Quiz
+ */
+async function getQuiz(quizId) {
+    return prisma.quiz.findFirst({where: {id: quizId}});
+}
+
+/**
+ * Create Quiz
+ */
+async function createQuiz(quiz) {
+    return prisma.quiz.create({
+        data: quiz
+    })
+}
+
+/**
  * Get running quizzes
  */
 async function getRunning() {
@@ -63,5 +86,8 @@ module.exports = {
     removeRunning,
     addResult,
     getResultAll,
+    getQuizList,
+    getQuiz,
+    createQuiz,
     prisma // Exporting raw prisma instance just in case
 };
