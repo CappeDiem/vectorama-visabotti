@@ -15,6 +15,7 @@ const valkey = new Valkey(url, {
     connectTimeout: CONNECT_TIMEOUT_MS,
     commandTimeout: COMMAND_TIMEOUT_MS,
     enableOfflineQueue: false,       // fail fast instead of queueing while disconnected
+    enableAutoPipelining: true,      // batch commands issued in the same tick (quiz answer bursts)
     maxRetriesPerRequest: 1,
     retryStrategy: (attempt) => Math.min(attempt * 200, 2000), // retry forever, max 2s apart
 });
