@@ -16,7 +16,7 @@ services:
       - visabot-network
 
   db:
-    image: postgres:18-alpine@sha256:b6972e1115a4ff8eba5d7f7d19184926d1e16d7d1136ae1e1a7ebf286da0f015
+    image: postgres:18-alpine@sha256:0115267ab5a509022df9319c77be365cef335adb71556c75f60f5360ee247e71
     container_name: postgres_db
     restart: always
     ports:
@@ -31,7 +31,7 @@ services:
       - visabot-network
 
   valkey:
-    image: valkey/valkey:9-alpine@sha256:bf09d58e96d6b4524a15396b65b242bbe18beebbcc15a04d8ee75ddac62fae0b
+    image: valkey/valkey:9-alpine@sha256:3ad5a213cb1bc2fd4a113c89b6248a88655a6bf1dda69519d04e03cd3e3d2742
     container_name: valkey
     restart: always
     ports:
